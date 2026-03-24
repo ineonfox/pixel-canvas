@@ -3,14 +3,16 @@ const canvas = document.querySelector('.canvas');
 createGrid(defaultGridSize);
 
 function createGrid(size) {
-    let canvasSize = canvas.offsetWidth;
-    let cellSize = canvasSize / size;
+    let canvasWidth = canvas.offsetWidth;
+    let canvasHeight = canvas.offsetHeight;
+    let cellWidth = canvasWidth / size;
+    let cellHeight = canvasHeight / size;
 
     for(let i = 0; i < size * size; i++) {
         let cell = document.createElement('div');
         cell.style.outline = 'rgb(190, 190, 190) solid 1px';
-        cell.style.width = `${cellSize}px`;
-        cell.style.height = `${cellSize}px`;
+        cell.style.width = `${cellWidth}px`;
+        cell.style.height = `${cellHeight}px`;
         canvas.appendChild(cell);
 
         cell.addEventListener('mouseover', changeCellColor);
