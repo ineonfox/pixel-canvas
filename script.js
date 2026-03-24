@@ -32,8 +32,8 @@ function changeCellColor(evt) {
     }  
 }
 
-const gridSize = document.querySelector('#grid-size');
-gridSize.addEventListener('click', changeGridSize);
+const btnGridSize = document.querySelector('#grid-size');
+btnGridSize.addEventListener('click', changeGridSize);
 
 function changeGridSize() {
     const userGridSize = +prompt('Would you like to change the grid size? Enter one number between 1-100.');
@@ -48,5 +48,14 @@ function changeGridSize() {
 function deleteGrid() {
     while (canvas.children.length > 0) {
         canvas.removeChild(canvas.lastChild);
+    }
+}
+
+const btnClearGrid = document.querySelector('#clear-grid');
+btnClearGrid.addEventListener('click', clearGrid);
+
+function clearGrid() {
+    for (const child of canvas.children) {
+        child.style.backgroundColor = '';
     }
 }
