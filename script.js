@@ -1,4 +1,4 @@
-const defaultGridSize = 50;
+const defaultGridSize = 16;
 const canvas = document.querySelector('.canvas');
 createGrid(defaultGridSize);
 
@@ -29,7 +29,24 @@ function changeCellColor(evt) {
         if (currentOpacity.length >= 4)
         currentOpacity = currentOpacity[3].substring(1,4);
         evt.target.style.backgroundColor = `rgb(0, 0, 0, ${Number(currentOpacity) + 0.1})`;
+    }  
+}
+
+const gridSize = document.querySelector('#grid-size');
+gridSize.addEventListener('click', changeGridSize);
+
+function changeGridSize() {
+    const userGridSize = +prompt('Would you like to change the grid size? Enter one number between 1-100.');
+    if (userGridSize) {
+        if (userGridSize > 0 && userGridSize <= 100) {
+            deleteGrid();
+            createGrid(userGridSize);
+        }
     }
-    console.log(evt.target.style.backgroundColor);
-    
+}
+
+function deleteGrid() {
+    while (canvas.children.length > 0) {
+        canvas.removeChild(canvas.lastChild);
+    }
 }

@@ -6,7 +6,11 @@
     height: 960px;
     width: 960px;
     outline: 1px solid black;
-    margin: 0 auto;
+    margin: 15px auto;
     display: flex;
     flex-wrap: wrap;
+}
+
+button {
+    padding: 10px 25px;
 }
