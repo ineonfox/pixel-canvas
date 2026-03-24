@@ -1,5 +1,7 @@
 const defaultGridSize = 16;
 const canvas = document.querySelector('.canvas');
+let isRandomColors = false;
+
 createGrid(defaultGridSize);
 
 function createGrid(size) {
@@ -21,14 +23,25 @@ function createGrid(size) {
 
 function changeCellColor(evt) {
     let currentOpacity = evt.target.style.backgroundColor.split(',');
-    if (!currentOpacity) {
-        evt.target.style.backgroundColor = 'rgb(0, 0, 0, 0.1)';
+    
+    let rgb = [0, 0, 0];
+    if (currentOpacity.length === 1) {
+        if (isRandomColors) {
+            for (let i = 0; i < rgb.length; i++) {
+                rgb[i] = Math.floor(Math.random() * 255);
+            }
+        }
+        evt.target.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
     }
     else {
+        for (let i = 0; i < currentOpacity.length; i ++) {
+            rgb[i] = currentOpacity[i].match(/\d+/)[0];
+        }
         // when cell is fully colored, opacity value is not reported, therefore .length = 3
-        if (currentOpacity.length >= 4)
-        currentOpacity = currentOpacity[3].substring(1,4);
-        evt.target.style.backgroundColor = `rgb(0, 0, 0, ${Number(currentOpacity) + 0.1})`;
+        if (currentOpacity.length >= 4) {
+            currentOpacity = currentOpacity[3].substring(1,4);
+        }
+        evt.target.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${Number(currentOpacity) + 0.1})`;
     }  
 }
 
@@ -57,5 +70,19 @@ btnClearGrid.addEventListener('click', clearGrid);
 function clearGrid() {
     for (const child of canvas.children) {
         child.style.backgroundColor = '';
+    }
+}
+
+const btnRandomColors = document.querySelector('#random-color');
+btnRandomColors.addEventListener('click', toggleRandomColors);
+
+function toggleRandomColors(evt) {
+    isRandomColors = !isRandomColors;
+
+    if (isRandomColors) {
+        evt.target.textContent = 'Back to black & white';
+    }
+    else {
+        evt.target.textContent = 'Color with randomness!';
     }
 }
