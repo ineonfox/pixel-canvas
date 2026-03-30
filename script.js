@@ -1,24 +1,39 @@
-const defaultGridSize = 16;
+let currentGridSize = 16;
 const canvas = document.querySelector('.canvas');
 let isRandomColors = false;
 
-createGrid(defaultGridSize);
+modifyGrid(currentGridSize, createCell);
 
-function createGrid(size) {
+function modifyGrid(size, func) {
     let canvasWidth = canvas.offsetWidth;
     let canvasHeight = canvas.offsetHeight;
     let cellWidth = canvasWidth / size;
     let cellHeight = canvasHeight / size;
 
-    for(let i = 0; i < size * size; i++) {
-        let cell = document.createElement('div');
-        cell.style.outline = 'rgb(190, 190, 190) solid 1px';
-        cell.style.width = `${cellWidth}px`;
-        cell.style.height = `${cellHeight}px`;
-        canvas.appendChild(cell);
-
-        cell.addEventListener('mouseover', changeCellColor);
+    if (canvas.children.length === 0) {
+        for(let i = 0; i < size * size; i++) {
+            let cell = document.createElement('div');
+            func(cell, cellWidth, cellHeight);
+        }
     }
+    else {
+        for(let i = 0; i < size * size; i++) {
+            func(canvas.children[i]);
+        }
+    }   
+}
+
+function createCell(cell, width, height) {
+    cell.classList.add('grid')
+    cell.style.width = `${width}px`;
+    cell.style.height = `${height}px`;
+    canvas.appendChild(cell);
+
+    cell.addEventListener('mouseover', changeCellColor);
+}
+
+function adjustCell(cell) {
+    cell.classList.toggle('grid');
 }
 
 function changeCellColor(evt) {
@@ -53,7 +68,8 @@ function changeGridSize() {
     if (userGridSize) {
         if (userGridSize > 0 && userGridSize <= 100) {
             deleteGrid();
-            createGrid(userGridSize);
+            modifyGrid(userGridSize, createCell);
+            currentGridSize = userGridSize;
         }
     }
 }
@@ -85,4 +101,11 @@ function toggleRandomColors(evt) {
     else {
         evt.target.textContent = 'Color with randomness!';
     }
+}
+
+const btnToggleGrid = document.querySelector('#toggle-grid');
+btnToggleGrid.addEventListener('click', toggleGrid);
+
+function toggleGrid() {
+    modifyGrid(currentGridSize, adjustCell);
 }

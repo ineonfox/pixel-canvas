@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     text-align: center;
+    font-family: 'Delius', 'Times New Roman', Times, serif;
 }
 
 body {
@@ -18,8 +21,13 @@ body {
 
 button {
     padding: 10px 25px;
-    margin: 10px 30px;
+    margin: 10px 20px;
     flex: 1;
+    font-size: 20px;
+}
+
+.grid {
+    outline: rgb(220, 220, 220) solid 1px;
 }
 
 .buttons {
