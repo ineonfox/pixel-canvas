@@ -10,6 +10,7 @@ function modifyGrid(size, func) {
     let cellWidth = canvasWidth / size;
     let cellHeight = canvasHeight / size;
 
+    // if there's no grid yet
     if (canvas.children.length === 0) {
         for(let i = 0; i < size * size; i++) {
             let cell = document.createElement('div');
@@ -37,26 +38,29 @@ function adjustCell(cell) {
 }
 
 function changeCellColor(evt) {
-    let currentOpacity = evt.target.style.backgroundColor.split(',');
+    let currentColor = evt.target.style.backgroundColor.split(',');
     
+    //default color - black
     let rgb = [0, 0, 0];
-    if (currentOpacity.length === 1) {
+    if (currentColor.length === 1) {
         if (isRandomColors) {
             for (let i = 0; i < rgb.length; i++) {
+                // randomizing each part of RGB
                 rgb[i] = Math.floor(Math.random() * 255);
             }
         }
         evt.target.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
     }
     else {
-        for (let i = 0; i < currentOpacity.length; i ++) {
-            rgb[i] = currentOpacity[i].match(/\d+/)[0];
+        for (let i = 0; i < currentColor.length; i++) {
+            // get every part of rgb() or rgba() (3-4 elements)
+            rgb[i] = currentColor[i].match(/\d+/)[0];
         }
         // when cell is fully colored, opacity value is not reported, therefore .length = 3
-        if (currentOpacity.length >= 4) {
-            currentOpacity = currentOpacity[3].substring(1,4);
+        if (currentColor.length >= 4) {
+            currentColor = currentColor[3].substring(1,4);
         }
-        evt.target.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${Number(currentOpacity) + 0.1})`;
+        evt.target.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${Number(currentColor) + 0.1})`;
     }  
 }
 
